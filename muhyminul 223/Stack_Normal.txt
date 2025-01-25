@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    cout<<"Enter the no of elements: ";
+    cin>>n;
+    stack<int> s,s1;
+
+    // Take Input in Stack
+    for(int i=0;i<n;i++){
+        int a;
+        cin>>a;
+        s.push(a);
+    }
+
+    // Delete upto the middle element in the previous stack and insert into new stack
+    int l=s.size()/2;
+    for(int i=0;i<l;i++){
+        int a=s.top();
+        s1.push(a);
+        s.pop();
+    }
+
+    // Delete the middle element
+    s.pop();
+
+    // Insert the elements from new stack to previous stack
+    while(!s1.empty()){
+        int b=s1.top();
+        s.push(b);
+        s1.pop();
+    }
+
+    // Printing Stack elements
+    cout<<"The stack elements are: ";
+    while(!s.empty()){
+        int m=s.top();
+        cout<<m<<"  ";
+        s.pop();
+    }
+
+    return 0;
+}

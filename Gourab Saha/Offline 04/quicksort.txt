@@ -1,0 +1,63 @@
+Implement quick sort in cpp.
+The first line of the file will describe how many inputs there are in the file. Let us
+call this value k. In each of the following k lines, there will be a series of integers:                                      2
+1 9 6 2 -1 0
+5 3 15 4 1 2
+ The output will print the integers as sorted. The output will have to be printed in a file. Use generics/template to handle any data type .Report the depth of the tree by calculation. handle left pvot and right pvot case and also case of -1 by giving int/d.   
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+template<typename T>
+int partition(std::vector<T>& arr, int low, int high) {
+    T pivot = arr[high];
+    int i = low - 1;
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            std::swap(arr[i], arr[j]);
+        }
+    }
+    std::swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+template<typename T>
+void quicksort(std::vector<T>& arr, int low, int high, int& depth) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quicksort(arr, low, pi - 1, depth);
+        quicksort(arr, pi + 1, high, depth);
+        depth++;
+    }
+}
+
+int main() {
+    std::ifstream infile("input.txt");
+    std::ofstream outfile("output.txt");
+    int k;
+    infile >> k;
+    for (int i = 0; i < k; i++) {
+        std::vector<int> arr;
+        int n;
+        infile >> n;
+        for (int j = 0; j < n; j++) {
+            int x;
+            infile >> x;
+            if (x != -1) {
+                arr.push_back(x);
+            }
+        }
+        int depth = 0;
+        quicksort(arr, 0, arr.size() - 1, depth);
+        for (int j = 0; j < arr.size(); j++) {
+            outfile << arr[j] << " ";
+        }
+        outfile << std::endl;
+    }
+    infile.close();
+    outfile.close();
+    return 0;
+}
+

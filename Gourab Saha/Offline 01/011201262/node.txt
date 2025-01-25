@@ -1,0 +1,37 @@
+This is a C++ header file defining a template class Node that represents a node in a doubly-linked list. Here is a line-by-line explanation of the code:
+
+c++
+Copy code
+#ifndef NODE_H
+#define NODE_H
+These are preprocessor directives that ensure the header file is only included once in the compilation process. NODE_H is a macro defined to avoid multiple inclusions of the same header file.
+
+c++
+Copy code
+template <typename T>
+This is a template declaration that allows the class to be instantiated with a generic type T.
+
+c++
+Copy code
+class Node {
+public:
+    T data;
+    Node<T>* next;
+    Node<T>* prev;
+These are public member variables of the class representing the data stored in the node, the next and previous nodes in the list.
+
+c++
+Copy code
+    Node() : data(T()), next(nullptr), prev(nullptr) {}
+This is a default constructor that initializes a Node object with default values. It initializes data with the default value of type T, next and prev with nullptr.
+
+c++
+Copy code
+    Node(T data) : data(data), next(nullptr), prev(nullptr) {}
+This is a constructor that initializes a Node object with a specified value for data and nullptr for next and prev.
+
+c++
+Copy code
+};
+
+#endif // NODE_H

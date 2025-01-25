@@ -1,0 +1,2 @@
+Selection sort swaps: 0
+Selection sort output: 

@@ -1,0 +1,128 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// Print any given array
+void PrintArray(int arr[],int Size){
+    for(int i=0;i<Size;i++){
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+}
+
+// Function to implement Linear search
+int LinearSearch(int a[],int s,int x){
+    for(int i=0;i<s;i++){
+        if(a[i]==x){
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Function to insert in the beginning of the array
+void InsertBegin(int a[],int s,int x){
+    for(int i=s-1;i>=0;i--){
+        a[i+1]=a[i];
+    }
+    a[0]=x;
+    cout<<"The array after insertion at the beginning: ";
+    PrintArray(a,s+1);
+}
+
+// Function to insert at the end of the array;
+void InsertEnd(int a[],int s,int x){
+    a[s]=x;
+    cout<<"The array after insertion at the end: ";
+    PrintArray(a,s+1);
+}
+
+// Function to insert at a particular position of the array
+void InsertPos(int a[],int s,int pos,int x){
+    for(int i=s-1;i>=pos-1;i--){
+        a[i+1]=a[i];
+    }
+    a[pos-1]=x;
+    cout<<"The array after insertion at the position "<<pos<<": ";
+    PrintArray(a,s+1);
+}
+
+// Function to delete from a particular position of the array
+void DeletePos(int a[],int s,int pos){
+    for(int i=pos-1;i<s-1;i++){
+        a[i]=a[i+1];
+    }
+    cout<<"The array after Deletion is:";
+    PrintArray(a,s-1);
+}
+
+// Function to delete a particular element of an array
+void DeleteKey(int a[],int s,int k){
+    int pos=LinearSearch(a,s,k);
+    if(pos==-1){
+        cout<<"The element you want to delete is not in the array"<<endl;
+    }
+    else{
+        for(int i=pos;i<s-1;i++){
+            a[i]=a[i+1];
+        }
+    }
+    cout<<"The array after Deletion is:";
+    PrintArray(a,s-1);
+}
+
+
+int main(){
+    int arr[100];
+
+    int Size;
+    cout<<"Enter the number of elements you want to take as input: ";
+    cin>>Size;
+
+    cout<<"Enter the "<<Size<<" elements of the array: ";
+    for(int i=0;i<Size;i++){
+        cin>>arr[i];
+    }
+
+    int choice,x;
+    cout<<"Choose the searching algorithm you wish to implement: "<<endl;
+    cout<<"\t 1 for Inserting at a specific position in the array"<<endl;
+    cout<<"\t 2 for Inserting at the end of the array"<<endl;
+    cout<<"\t 3 for Inserting at the beginning of the array"<<endl;
+    cout<<"\t 4 for Deleting element at a particular index of the array"<<endl;
+    cout<<"\t 5 for Deleting a particular element of the array taken as key"<<endl;
+    cin>>choice;
+
+    int p,v;
+    switch (choice)
+    {
+    case 1:
+
+        cout<<"Enter the position & value of the element you want to insert: ";
+        cin>>p>>v;
+        InsertPos(arr,Size,p,v);
+        break;
+    case 2:
+        cout<<"Enter the value of the element you want to insert at the end: ";
+        cin>>v;
+        InsertEnd(arr,Size,v);
+        break;
+    case 3:
+        cout<<"Enter the value of the element you want to insert at the beginning: ";
+        cin>>v;
+        InsertBegin(arr,Size,v);
+        break;
+    case 4:
+        int index;
+        cout<<"Enter the position of the element you want to delete: ";
+        cin>>index;
+        DeletePos(arr,Size,index);
+        break;
+    default:
+        int key;
+        cout<<"Enter the value of the element you want to delete: ";
+        cin>>key;
+        DeleteKey(arr,Size,key);
+        break;
+    }
+    return 0;
+}
