@@ -1,0 +1,6 @@
+In the presentation you will have to present the followings:
+
+Explain the algorithm with proper illustration (You can use animation, chart etc.) [Marks: 8]
+Show and explain the PseudoCode of the algorithm. [Marks: 4]
+Run and Show the complete program of the algorithm implementation. [Marks: 8]
+Time Complexity Analysis [Bonus Marks]
