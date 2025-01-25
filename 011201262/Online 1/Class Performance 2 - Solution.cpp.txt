@@ -1,0 +1,57 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+
+stack< char > initDocument()
+{
+    stack< char > myStack;
+    return myStack;
+}
+
+void insertText(stack< char > &document, char c)
+{
+    document.push(c);
+}
+
+void undo(stack< char > &document, int count)
+{
+    for(int i=0; i<count; i++)
+    {
+        if(document.empty()==false)
+            document.pop();
+    }
+}
+
+void showDocument(stack< char > &document)
+{
+    stack< char > helpingStack;
+
+    while(document.empty()==false)
+    {
+        helpingStack.push(document.top());
+        document.pop();
+    }
+
+    while(helpingStack.empty()==false)
+    {
+        cout << helpingStack.top();
+        document.push(helpingStack.top());
+        helpingStack.pop();
+    }
+    cout << endl;
+}
+
+int main()
+{
+    stack< char > document = initDocument();
+    insertText(document, 'u');
+    insertText(document, 'n');
+    insertText(document, 'i');
+    insertText(document, 't');
+    showDocument(document); // Output: unit
+    undo(document, 2);
+    showDocument(document); // Output: un
+    insertText(document, 'b');
+    showDocument(document); // Output: unb
+    return 0;
+}

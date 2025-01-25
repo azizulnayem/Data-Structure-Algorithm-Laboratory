@@ -1,0 +1,450 @@
+Implement queue using doubly linked list in c
+-------------------------------------------------
+
+// Include header file
+#include <stdio.h>
+#include <stdlib.h>
+
+/*
+    C program for 
+    Implement queue using doubly linked list
+*/
+typedef struct QNode
+{
+	// Define useful field of QNode
+	int data;
+	struct QNode * next;
+	struct QNode * prev;
+}QNode;
+
+typedef struct MyQueue
+{
+	// Define useful field of MyQueue
+	struct QNode * front;
+	struct QNode * rear;
+	int size;
+}MyQueue;
+
+QNode * getQNode(int data, QNode * prev)
+{
+	// Create dynamic memory of QNode
+	QNode * ref = (QNode * ) malloc(sizeof(QNode));
+	if (ref == NULL)
+	{
+		// Failed to create memory 
+		return NULL;
+	}
+	ref->data = data;
+	ref->next = NULL;
+	ref->prev = prev;
+	return ref;
+}
+MyQueue * getMyQueue()
+{
+	// Create dynamic memory of MyQueue
+	MyQueue * ref = (MyQueue * ) malloc(sizeof(MyQueue));
+	if (ref == NULL)
+	{
+		// Failed to create memory 
+		return NULL;
+	}
+	ref->front = NULL;
+	ref->rear = NULL;
+	return ref;
+}
+// Add a node into queue
+void enqueue(MyQueue * ref, int data)
+{
+	// Create a new node
+	QNode * node = getQNode(data, ref->rear);
+	if (ref->front == NULL)
+	{
+		// When adding a first node of queue
+		ref->front = node;
+		ref->size = 1;
+	}
+	else
+	{
+		ref->rear->next = node;
+		ref->size = ref->size + 1;
+	}
+	ref->rear = node;
+}
+int isEmpty(MyQueue * ref)
+{
+	if (ref->size == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+// Get a front element of queue
+int peek(MyQueue * ref)
+{
+	if (isEmpty(ref) == 1)
+	{
+		printf("\n Empty Queue");
+		// When stack is empty
+		return -1;
+	}
+	else
+	{
+		return ref->front->data;
+	}
+}
+int isSize(MyQueue * ref)
+{
+	return ref->size;
+}
+// Remove a front node of a queue
+int dequeue(MyQueue * ref)
+{
+	if (isEmpty(ref) == 1)
+	{
+		// When queue is empty
+		return -1;
+	}
+	else
+	{
+		int data = peek(ref);
+		QNode * temp = ref->front;
+		if (ref->front == ref->rear)
+		{
+			// When queue contains only one node
+			ref->rear = NULL;
+			ref->front = NULL;
+		}
+		else
+		{
+			ref->front = ref->front->next;
+			ref->front->prev = NULL;
+		}
+		// Change queue size
+		ref->size--;
+		// Delete node value
+		return data;
+	}
+}
+// Print elements of queue
+void printQdata(MyQueue * ref)
+{
+	QNode * node = ref->front;
+	printf("\n Queue Element\n");
+	while (node != NULL)
+	{
+		printf(" %d", node->data);
+		node = node->next;
+	}
+	printf("\n");
+}
+int main()
+{
+	MyQueue * q = getMyQueue();
+	// Add queue element
+	enqueue(q, 1);
+	enqueue(q, 2);
+	enqueue(q, 3);
+	enqueue(q, 4);
+	enqueue(q, 5);
+	printQdata(q);
+	printf(" Size : %d", isSize(q));
+	// Remove queue element
+	printf("\n Dequeue Node : %d", dequeue(q));
+	printf("\n Dequeue Node : %d", dequeue(q));
+	printf("\n Dequeue Node : %d", dequeue(q));
+	printQdata(q);
+	printf(" Size : %d\n", isSize(q));
+  	return 0;
+}
+
+-------------------------------------------------------------------
+
+
+Implement queue using linked list in c
+-------------------------------------------------
+#include <stdio.h>
+#include <stdlib.h>
+ 
+// A Linked List Node
+struct Node
+{
+    int data;               // integer data
+    struct Node* next;      // pointer to the next node
+}*rear = NULL, *front = NULL;
+ 
+// Utility function to allocate the new queue node
+struct Node* newNode(int item)
+{
+    // allocate a new node in a heap
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+ 
+    // check if the queue (heap) is full. Then inserting an element would
+    // lead to heap overflow
+    if (node != NULL)
+    {
+        // set data in the allocated node and return it
+        node->data = item;
+        node->next = NULL;
+        return node;
+    }
+    else {
+        printf("\nHeap Overflow");
+        exit(EXIT_FAILURE);
+    }
+}
+ 
+// Utility function to dequeue the front element
+int dequeue()        // delete at the beginning
+{
+    if (front == NULL)
+    {
+        printf("\nQueue Underflow");
+        exit(EXIT_FAILURE);
+    }
+ 
+    struct Node* temp = front;
+    printf("Removing %d\n", temp->data);
+ 
+    // advance front to the next node
+    front = front->next;
+ 
+    // if the list becomes empty
+    if (front == NULL) {
+        rear = NULL;
+    }
+ 
+    // deallocate the memory of the removed node and optionally return the removed item
+    int item = temp->data;
+    free(temp);
+    return item;
+}
+ 
+// Utility function to add an item to the queue
+void enqueue(int item)        // insertion at the end
+{
+    // allocate a new node in a heap
+    struct Node* node = newNode(item);
+    printf("Inserting %d\n", item);
+ 
+    // special case: queue was empty
+    if (front == NULL)
+    {
+        // initialize both front and rear
+        front = node;
+        rear = node;
+    }
+    else {
+        // update rear
+        rear->next = node;
+        rear = node;
+    }
+}
+ 
+// Utility function to return the top element in a queue
+int peek()
+{
+    // check for an empty queue
+    if (front != NULL) {
+        return front->data;
+    }
+    else {
+        exit(EXIT_FAILURE);
+    }
+}
+ 
+// Utility function to check if the queue is empty or not
+int isEmpty() {
+    return rear == NULL && front == NULL;
+}
+ 
+int main()
+{
+    enqueue(1);
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+ 
+    printf("The front element is %d\n", peek());
+ 
+    dequeue();
+    dequeue();
+    dequeue();
+    dequeue();
+ 
+    if (isEmpty()) {
+        printf("The queue is empty");
+    }
+    else {
+        printf("The queue is not empty");
+    }
+ 
+    return 0;
+}
+
+-------------------------------------------------------------------
+
+Queue using Doubly Linked List.c(github)
+
+-----------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node
+{
+    int number;
+    struct node *prev;
+    struct node *next;
+}
+node;
+
+node *head;
+node *tail;
+
+// Removing element from the queue
+int dequeue()
+{
+    int value;
+    value = head->number;
+
+    (head->prev)->next = NULL;
+    head = head->prev;
+
+    return value;
+}
+
+// Adding node to the queue
+void enqueue(int value)
+{
+    node *n = malloc(sizeof(node));
+    if (n == NULL)
+    {
+        return;
+    }
+
+    n->number = value;
+    n->next = NULL;
+    n->prev = NULL;
+
+    if (head == NULL && tail == NULL)
+    {
+        head = n;
+        tail = n;
+    }
+    else
+    {
+        n->next = tail;
+        tail->prev = n;
+        tail = n;
+    }
+}
+
+int main(void)
+{
+    int number, x;
+    number = 1;
+    enqueue(number);
+
+    number = 2;
+    enqueue(number);
+
+    number = 3;
+    enqueue(number);
+
+    for (node *tmp = tail; tmp != NULL; tmp = tmp->next)
+    {
+        printf("%d\n", tmp->number);
+    }
+
+    x = dequeue();
+    printf("H: %d\n", x);
+
+    x = dequeue();
+    printf("H: %d\n", x);
+
+    for (node *tmp = tail; tmp != NULL; tmp = tmp->next)
+    {
+        printf("%d\n", tmp->number);
+    }
+
+}
+
+-------------------------------------------------------------------
+
+
+Queue_LinkedList.c
+------------------------
+
+#include<stdio.h>
+#include<stdlib.h>
+struct Node {
+	int data;
+	struct Node* next;
+};
+// Two glboal variables to store address of front and rear nodes. 
+struct Node* front = NULL;
+struct Node* rear = NULL;
+
+// To Enqueue an integer
+void Enqueue(int x) {
+	struct Node* temp = 
+		(struct Node*)malloc(sizeof(struct Node));
+	temp->data =x; 
+	temp->next = NULL;
+	if(front == NULL && rear == NULL){
+		front = rear = temp;
+		return;
+	}
+	rear->next = temp;
+	rear = temp;
+}
+
+// To Dequeue an integer.
+void Dequeue() {
+	struct Node* temp = front;
+	if(front == NULL) {
+		printf("Queue is Empty\n");
+		return;
+	}
+	if(front == rear) {
+		front = rear = NULL;
+	}
+	else {
+		front = front->next;
+	}
+	free(temp);
+}
+
+int Front() {
+	if(front == NULL) {
+		printf("Queue is empty\n");
+		return;
+	}
+	return front->data;
+}
+
+void Print() {
+	struct Node* temp = front;
+	while(temp != NULL) {
+		printf("%d ",temp->data);
+		temp = temp->next;
+	}
+	printf("\n");
+}
+
+int main(){
+	/* Drive code to test the implementation. */
+	// Printing elements in Queue after each Enqueue or Dequeue 
+	Enqueue(2); Print(); 
+	Enqueue(4); Print();
+	Enqueue(6); Print();
+	Dequeue();  Print();
+	Enqueue(8); Print();
+}
+
+
+------------------------------------------------------------------
+

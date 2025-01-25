@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int countIncomingEdge(vector< int > Graph[], int node, int V)
+{
+    return Graph[node].size();
+}
+int countOutgoingEdge(vector< int > Graph[], int node)
+{
+    return Graph[node].size();
+}
+void countIncomingEdge(vector< int > Graph[], int V)
+{
+    for(int i=0; i<V; i++)
+    {
+        cout << i << " : " << countIncomingEdge(Graph, i) << endl;
+    }
+}
+void countOutgoingEdge(vector< int > Graph[], int V)
+{
+    for(int i=0; i<V; i++)
+    {
+        cout << i << " : " << countOutgoingEdge(Graph, i) << endl;
+    }
+}
+
+int main()
+{
+    freopen("input.txt", "r", stdin);
+
+    int V, E; cin >> V >> E;
+    vector< int > Graph[V];
+
+    for(int i=1; i<=E; i++)
+    {
+        int from, to; cin >> from >> to;
+        Graph[from].push_back(to);
+        Graph[to].push_back(from);
+    }
+
+
+    /// Test Code: You can write your code after this line to test your solution
+
+    countOutgoingEdge(Graph, 0);
+
+    return 0;
+}
+

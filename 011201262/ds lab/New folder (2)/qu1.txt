@@ -1,0 +1,108 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+struct BST
+{
+    int data;
+    struct BST *leftchild;
+    struct BST *rightchild;
+};
+typedef struct BST node;
+void menu()
+{
+    printf("1. Insert \n");
+    printf("2. search \n");
+    printf("0. Exit\n");
+    printf("Enter your choice: ");
+}
+//testing
+node *insert(node *root, int x)
+{
+    if (root == NULL)
+    {
+        root = malloc(sizeof(node));
+        root->leftchild = NULL;
+        root->rightchild = NULL;
+        root->data = x;
+    }
+    else if (x < root->data)
+    {
+        root->leftchild = insert(root->leftchild, x);
+    }
+    else
+    {
+        root->rightchild = insert(root->rightchild, x);
+    }
+    return root;
+}
+void print_preorder(node *root)
+{
+    if (root == NULL)
+        return;
+    printf("%d -> ", root->data);
+    print_preorder(root->leftchild);
+    print_preorder(root->rightchild);
+}
+
+node *search (node *root, int value)
+{
+    if (root == NULL)
+        return root;
+    if (value < root->data)
+        root->leftchild = search (root->leftchild, value);
+    else if (value > root->data)
+        root->rightchild = search (root->rightchild, value);
+    else
+    {
+        if (root->leftchild == NULL)
+        {
+            node *temp = root->rightchild;
+            free(root);
+            return temp;
+        }
+        else if (root->rightchild == NULL)
+        {
+            node *temp = root->leftchild;
+            free(root);
+            return temp;
+        }
+
+    }
+    return root;
+}
+
+int main()
+{
+    int choice, value;
+    node *root = NULL;
+    menu();
+    scanf("%d", &choice);
+    while (choice)
+    {
+        if (choice == 1)
+        {
+           int loop;
+           scanf("%d",&loop);
+           for(int i=0; i<loop;i++)
+           {
+              scanf("%d",&value);
+              root = insert(root,value);
+           }
+
+       }
+        else if (choice == 2)
+        {
+            printf("Enter value to search : ");
+            scanf("%d", &value);
+            root = search (root, value);
+            printf("%d\n",search);
+        }
+
+        else
+            printf("Invalid choice. please try again...\n\n");
+        menu();
+        scanf("%d", &choice);
+    }
+    return 0;
+}

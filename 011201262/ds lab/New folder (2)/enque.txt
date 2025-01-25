@@ -1,0 +1,100 @@
+#include <stdio.h>
+
+int selectOption ();
+int enquene ();
+int dequene() ;
+int main ()
+{
+    int data [100], n, fr=0,rear=0,qsize=0 ;
+    printf("Enter Quene Size :  ") ;
+    scanf("%d",&n);
+
+    int ch = selectOption();
+
+    while (ch!=0)
+    {
+        if (ch==1)
+        {
+          if(qsize == n)
+          {
+              printf(" Unable to enquene \n\n") ;
+          }
+          else
+          {
+              int v ;
+              printf("Enter Value ") ;
+              scanf("%d", &v) ;
+              rear = enquene(data,rear,v);
+              qsize++ ;
+          }
+        }
+        else if(ch==2)
+        {
+           if(qsize == 0)
+           {
+               printf ("Unable tp dequene \n\n") ;
+           }
+           else
+           {
+               fr=dequene(data,fr);
+               qsize-- ;
+           }
+        }
+        else if(ch==3)
+        {
+
+          printf("Front Element : %d\n\n", data[fr]);
+        }
+        else if(ch==4)
+        {
+         if (qsize>0)
+         {
+             printf("QSize is : %d\n\n",qsize);
+         }
+          else
+          {
+              printf("No Value Found \n\n");
+          }
+        }
+
+        else
+        {
+            printf("Invalid Choice\n");
+        }
+        ch = selectOption();
+    }
+
+}
+int selectOption ()
+{
+    printf("1. Enquene\n");
+    printf("2. Dequene\n");
+    printf("3. Front Element\n");
+    printf("4. Q_Size\n");
+    printf("0. Exist\n");
+    printf("Enter Choice ") ;
+    int ch ;
+    scanf("%d",&ch) ;
+    return ch ;
+}
+
+int enquene (int data [],int rear , int v , int n ){
+data[rear] = v ;
+rear = (rear + 1) %n ;
+// or
+// if (rear == n)
+// rear =0 ;
+
+   printf("%d enquened \n\n", v);
+return rear ;
+
+}
+int dequene (int data [],int fr , int n){
+ printf("%d dequene \n\n ", data[fr]);
+ fr++ ;
+ fr=(fr+1)%n;
+ //or
+ //if (fr == n)
+ // fr = 0 ;
+ return fr ;
+}

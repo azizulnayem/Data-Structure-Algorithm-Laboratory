@@ -1,0 +1,191 @@
+/ Adjascency List representation in C
+-----------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+  int vertex;
+  struct node* next;
+};
+struct node* createNode(int);
+
+struct Graph {
+  int numVertices;
+  struct node** adjLists;
+};
+
+// Create a node
+struct node* createNode(int v) {
+  struct node* newNode = malloc(sizeof(struct node));
+  newNode->vertex = v;
+  newNode->next = NULL;
+  return newNode;
+}
+
+// Create a graph
+struct Graph* createAGraph(int vertices) {
+  struct Graph* graph = malloc(sizeof(struct Graph));
+  graph->numVertices = vertices;
+
+  graph->adjLists = malloc(vertices * sizeof(struct node*));
+
+  int i;
+  for (i = 0; i < vertices; i++)
+    graph->adjLists[i] = NULL;
+
+  return graph;
+}
+
+// Add edge
+void addEdge(struct Graph* graph, int s, int d) {
+  // Add edge from s to d
+  struct node* newNode = createNode(d);
+  newNode->next = graph->adjLists[s];
+  graph->adjLists[s] = newNode;
+
+  // Add edge from d to s
+  newNode = createNode(s);
+  newNode->next = graph->adjLists[d];
+  graph->adjLists[d] = newNode;
+}
+
+// Print the graph
+void printGraph(struct Graph* graph) {
+  int v;
+  for (v = 0; v < graph->numVertices; v++) {
+    struct node* temp = graph->adjLists[v];
+    printf("\n Vertex %d\n: ", v);
+    while (temp) {
+      printf("%d -> ", temp->vertex);
+      temp = temp->next;
+    }
+    printf("\n");
+  }
+}
+
+int main() {
+  struct Graph* graph = createAGraph(4);
+  addEdge(graph, 0, 1);
+  addEdge(graph, 0, 2);
+  addEdge(graph, 0, 3);
+  addEdge(graph, 1, 2);
+
+  printGraph(graph);
+
+  return 0;
+}
+
+----------------------------------------------------------------
+
+adjacency list implementation in c
+
+---------------------------------------------
+
+
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+
+#define N    10
+
+typedef struct {
+    int y;
+    int weight;
+    struct Edge *next; /* next in adj list */
+} Edge;
+
+typedef struct {
+    int x;
+    struct Edge *next;
+} Vertex;
+
+typedef struct {
+    Vertex *vertex[N];
+    int degree[N];
+    int nvertices;
+    int nedges;
+    bool directed;
+} Graph;
+
+void initialize_graph(Graph **g, bool directed) {
+    int i;
+
+    (*g)->nvertices = 0;
+    (*g)->nedges = 0;
+    (*g)->directed = directed;
+
+    for (i = 0; i < N ; i++) { 
+        (*g)->degree[i]=0;
+        (*g)->vertex[i]=NULL;
+    }
+}
+
+void insert_edge(Vertex *v, Edge *e) {
+    e->next = v->next;
+    v->next = (struct Edge*) e;
+}
+
+void create_link(Graph **g, int x, int y, int weight, bool directed) {
+    Vertex *v;
+    Edge *e;
+    if (!(*g)->vertex[x]) {
+        v = malloc(sizeof(Vertex));
+        if (!v) return;
+        v->x = x;
+        (*g)->vertex[x] = v;
+        (*g)->nvertices+=1;
+    } else v = (*g)->vertex[x];
+
+    e = malloc(sizeof(Edge));
+    e->y = y;
+    e->weight = weight;
+    insert_edge(v, e);
+
+    if (!directed) 
+        create_link(g, y, x, weight, true);
+    else 
+        (*g)->nedges+=1;
+}
+
+void print_graph(Graph *g) {
+    int i;
+    Vertex *v;
+    Edge *e;
+
+    for (i=0; i<g->nvertices+1; i++) {
+        v = g->vertex[i];
+        if (v) {
+            printf("Vertex %d: ", v->x);
+            for (e = (Edge*) v->next; e; e = (Edge*) e->next) 
+                printf(" %d(%d)", e->y, e->weight);
+            printf("\n");
+        }
+    }
+}
+
+
+/* 1-----2---3 */
+/* | ___/|   | */
+/* |/    |   | */
+/* 5-----4---+ */
+int main() {
+    Graph *g = malloc(sizeof(Graph));
+    initialize_graph(&g, false);
+    create_link(&g,1,2,1,false);
+    create_link(&g,1,5,1,false);
+    create_link(&g,2,5,1,false);
+    create_link(&g,2,4,1,false);
+    create_link(&g,2,3,1,false);
+    create_link(&g,3,4,1,false);
+    create_link(&g,4,5,1,false);
+    print_graph(g);
+    return 0;
+}
+
+
+-----------------------------------------------------------------
+
+

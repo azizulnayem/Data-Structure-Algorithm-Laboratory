@@ -1,0 +1,33 @@
+//The code you provided is using the Bubble Sort algorithm to sort an array and then find the Kth smallest and Lth largest elements from the sorted array.
+#include<stdio.h>
+void BubbleSort(int arr[], int n)
+{
+    for(int i=0; i<n-1; i++)
+    {
+        for(int j=0; j<n-1-i; j++)
+        {
+            if(arr[j]>arr[j+1])
+            {
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+    return;
+}
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    int arr[n];
+    for(int i=0;i<n;i++)
+        scanf("%d", &arr[i]);
+    int K, L;
+    scanf("%d%d", &K, &L);
+    BubbleSort(arr, n);
+    printf("The %dth Smallest element in the array is %d\n", K, arr[K-1]);
+    printf("The %dth Largest element in the array is %d\n", L, arr[n-L]);
+    return 0;
+}

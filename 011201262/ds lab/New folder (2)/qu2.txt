@@ -1,0 +1,98 @@
+write a function to check whether a given doubly linked list is palindrome or not
+
+
+#include<bits/stdc++.h>
+using namespace std;
+class Node
+{
+public:
+    char data;
+    Node* next;  // Pointer to the next node
+    Node* prev;  // Pointer to previous node
+        
+        // Constructor for creating a new node
+    Node(char value)
+    {
+        data = value;
+        next = prev = NULL;
+    }
+};
+
+Node* head=NULL;
+
+// To insert a node at the end of a Doubly Linked List
+void insertAtLast(char data)
+{
+    // Creating a new node with the given data
+    struct Node* newNode =  new Node(data);
+    
+    // A temporary pointer that will be used for traversing DLL
+    Node* temp = head;
+    
+    // Making the next of newNode as Null
+    newNode->next = NULL;
+    
+    // If DLL is empty then this node will be both the first as
+    // well as the last node
+    if(head == NULL)
+    {
+        newNode->prev = NULL;
+        head = newNode;
+        return;
+    }
+    
+    // If DLL is not empty, then traverse till the end of DLL. Make
+    // the next pointer of the original last node point to the new
+    // last node and the previous of the last node to the original 
+    // last node
+    
+    while(temp->next != NULL)
+    {
+        temp = temp->next;
+    }  // Now temp points to the original last node
+    
+    // Illustarted by Blue color in the diagram
+    temp->next = newNode;
+
+    // Illstrated by orange color in the diagram
+    newNode->prev = temp;
+}
+
+bool isPalindrome(Node *start)
+{
+    if (start == NULL) // check if the start itself is null. If yes, the list is //empty, thus return true
+      return true;
+ 
+    // Find the end node
+    Node *end = start;
+    while (end->next != NULL) // Traverse to the end fo the doubly-linked list
+        end = end->next;
+ 
+    while (start!= end) // Keep checking if the data at the start pointer of the //linked list is equal to that of the end pointer. 
+    {
+        if (start->data != end->data) // If the data at start is not equal to data //at end, return false.
+            return false;
+        // Else move ahead
+        start = start->next;
+        end = end->prev;
+    }
+ 
+    return true;
+}
+
+int main(){
+    string s;
+    cin>>s;
+    for(int i=0;i<s.length();i++){
+        insertAtLast(s[i]);
+    }
+    //printLinkedList(head);
+    Node* start = head;
+    if(isPalindrome(start)==true){
+        cout<<"true"<<endl;
+    }
+    else{
+        cout<<"false"<<endl;
+    }
+    return 0;
+}

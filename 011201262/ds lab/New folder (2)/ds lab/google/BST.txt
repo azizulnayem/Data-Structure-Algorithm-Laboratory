@@ -1,0 +1,563 @@
+Binary Search Tree Finding Odd values problem.c
+-----------------------------------------------------------
+
+
+
+#include <stdio.h> 
+
+#include <stdlib.h> 
+
+#include <iostream>
+
+ 
+
+using namespace std;
+
+    
+
+struct node 
+
+{ 
+
+    int data; 
+
+    struct node* left; 
+
+    struct node* right; 
+
+}; 
+
+ 
+
+int getLeafCount(struct node* node, int count) 
+
+{  
+
+ 
+
+    int temp = 0;
+
+    if(node!=NULL) 
+
+    {
+
+            if((node -> data %2) != 0)
+
+        {
+
+        temp++;
+
+        count = count + temp;  
+
+            }
+
+        getLeafCount(node->left, count);
+
+        getLeafCount(node->right, count);
+
+    }
+
+    return count;
+
+} 
+
+struct node* newNode(int data) 
+
+{ 
+
+  struct node* node = (struct node*)malloc(sizeof(struct node)); 
+
+  node->data = data; 
+
+  node->left = NULL; 
+
+  node->right = NULL; 
+
+  return(node); 
+
+}
+
+ 
+
+int main() 
+
+{ 
+
+  struct node *root = newNode(1); 
+
+  root->left        = newNode(2); 
+
+  root->right       = newNode(3); 
+
+  root->left->left  = newNode(4); 
+
+  root->left->right = newNode(5);  
+
+ 
+
+  int tot_cnt = getLeafCount(root, 0);
+
+  cout << "Total Count: " << tot_cnt;  
+
+ 
+
+  getchar(); 
+
+  return 0; 
+}
+
+------------------------------------------------------------------
+
+
+sum even numbers in BST.c
+------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int key;
+    struct node *left, *right;
+};
+
+struct node *newNode(int item) {
+struct node *temp=(struct node *)malloc(sizeof(struct node));
+    temp->key = item;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+struct node* insert(struct node* node, int key) {
+    if (node == NULL) return newNode(key);
+    if (key < node->key)
+        node->left = insert(node->left, key);
+    else
+        node->right = insert(node->right, key);
+    return node;
+}
+
+void main(void)
+{
+    struct node *root = NULL;
+    int data[]={3,1,2,6,4,7,8}, n, i;
+    n=sizeof(data)/sizeof(data[0]);
+    for(i=0;i<n;i++)
+        root=insert(root,data[i]);
+}
+
+int sum(struct node *root) {
+   if (root == NULL) {
+     return 0;
+   }
+   int value = 0;
+   if (root->key % 2 == 0) {
+      value = root->key;
+   }
+   return value + sum(root->left) + sum(root->right);
+}
+
+
+-------------------------------------------------------------------
+
+
+C Program to Find the Sum of All Nodes in a Binary Tree
+----------------------------------------------------------
+
+/* C Program for finding the sum of all the nodes in a Tree */
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int info;
+    struct node *left, *right;
+};
+struct node *createnode(int key)
+{
+    struct node *newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->info = key;
+    newnode->left = NULL;
+    newnode->right = NULL;
+    return(newnode);
+}
+int sumofnodes(struct node *root)
+{
+    int rightsubtree, leftsubtree, sum = 0;
+    if(root != NULL)
+    {
+        leftsubtree = sumofnodes(root->left);
+        rightsubtree = sumofnodes(root->right);
+        sum = (root->info) + leftsubtree + rightsubtree;
+        return sum;
+    }
+}
+/*
+ * Main Function
+ */
+int main()
+{
+   /* Creating first Tree. */
+    struct node *newnode = createnode(25);
+    newnode->left = createnode(27);
+    newnode->right = createnode(19);
+    newnode->left->left = createnode(17);
+    newnode->left->right = createnode(91);
+    newnode->right->left = createnode(13);
+    newnode->right->right = createnode(55);
+    /* Sample Tree 1:
+     *                25
+     *             /    \
+     *            27     19
+     *           / \     / \
+     *         17  91   13 55
+     */
+    printf("Sum of nodes in tree 1 = %d", sumofnodes(newnode));
+    printf("\n");
+ 
+    /* Creating second Tree. */
+    struct node *node = createnode(1);
+    node->right = createnode(2);
+    node->right->right = createnode(3);
+    node->right->right->right = createnode(4);
+    node->right->right->right->right = createnode(5);
+    /* Sample Tree 2:   Right Skewed Tree (Unbalanced).
+     *               1
+     *                \
+     *                 2
+     *                  \
+     *                   3
+     *                    \
+     *                     4
+     *                      \
+     *                       5
+     */
+    printf("Sum of nodes in tree 2 = %d", sumofnodes(node));
+    printf("\n");
+ 
+    /* Creating third Tree. */
+    struct node *root = createnode(15);
+    /* Sample Tree 3: Tree having just one root node.
+     *              15
+     */
+    printf("Sum of nodes in tree 3 = %d", sumofnodes(root));
+    printf("\n");
+    return 0;
+}
+
+------------------------------------------------------------------
+
+C Program to Convert Sorted Array to Balanced BST
+-------------------------------------------------
+
+/*
+ * C Program to Construct a Balenced Binary Tree using Sorted Array
+ *                   40
+ *                   /  \
+ *                  20   60
+ *                 /  \   \
+ *                10  30   80
+ *                          \
+ *                           90    
+ *            (Given Binary Search Tree)
+ */
+#include <stdio.h>
+#include <stdlib.h> 
+ 
+struct btnode
+{
+    int value;
+    struct btnode *l;
+    struct btnode *r;
+};
+ 
+typedef struct btnode N;
+N* bst(int arr[], int first, int last);
+N* new(int val);
+void display(N *temp);
+ 
+int main()
+{   
+    int arr[] = {10, 20, 30, 40, 60, 80, 90};
+    N *root = (N*)malloc(sizeof(N));  
+    int n = sizeof(arr) / sizeof(arr[0]), i;
+ 
+    printf("Given sorted array is\n");
+    for (i = 0;i < n;i++)
+        printf("%d\t", arr[i]);
+    root = bst(arr, 0, n - 1); 
+    printf("\n The preorder traversal of binary search tree is as follows\n");
+    display(root);
+    printf("\n");   
+    return 0;
+}
+ 
+/* To create a new node */
+N* new(int val)
+{
+    N* node = (N*)malloc(sizeof(N));
+ 
+    node->value = val;
+    node->l = NULL;
+    node->r  =  NULL;
+    return node;
+}
+ 
+/* To create a balanced binary search tree */
+N* bst(int arr[], int first, int last)
+{
+    int mid;
+    N* temp = (N*)malloc(sizeof(N));
+    if (first > last)
+        return NULL;
+    mid = (first + last) / 2;
+    temp = new(arr[mid]);
+    temp->l = bst(arr, first, mid - 1);
+    temp->r = bst(arr, mid + 1, last);
+    return temp;
+}
+ 
+/* To display the preorder */
+void display(N *temp)
+{
+    printf("%d->", temp->value);
+    if (temp->l != NULL)
+        display(temp->l);
+    if (temp->r != NULL)
+        display(temp->r);
+}
+
+-----===================================================--------
+
+
+C Program to Print Height and Depth of Binary Tree
+
+-------------------------------------------------------
+
+
+/*
+ * C Program to Print Height and Depth of given Binary Tree
+ *                                        50
+ *                                       /  \
+ *                                      20   30
+ *                                     /  \
+ *                                    70  80
+ *                                   / \    \
+ *                                  10  40   60                                
+ */    
+#include <stdio.h>
+#include <stdlib.h>
+ 
+struct btnode {
+    int value;
+    struct btnode *l;
+    struct btnode *r;
+};
+struct btnode *root;
+typedef struct btnode bt;
+bt *new,*ptr,*ptr1,*ptr2;
+ 
+bt* create()
+{
+    new = (bt *)malloc(sizeof(bt));
+    new->l = NULL;
+    new->r = NULL;
+    return new;
+}
+ 
+void construct_binary_tree()
+{
+    root = create();
+    root->value = 50;
+ 
+    ptr = create();
+    root->l = ptr;
+    ptr->value = 20;
+ 
+    ptr1 = create();
+    ptr->l = ptr1;
+    ptr1->value = 70;
+ 
+    ptr2 = create();
+    ptr1->l = ptr2;
+    ptr2->value = 10;
+ 
+    ptr2 = create();
+    ptr1->r = ptr2;
+    ptr2->value = 40;
+ 
+    ptr1 = create();
+    ptr->r = ptr1;
+    ptr1->value = 80;
+ 
+    ptr2 = create();
+    ptr1->r = ptr2;
+    ptr2->value = 60;
+ 
+    ptr = create();
+    root->r = ptr;
+    ptr->value = 30;
+}
+ 
+void main()
+{
+    int depth1 = 0, depth2 = 0;
+ 
+    construct_binary_tree();
+    ptr = root;
+    while (ptr->l != NULL || ptr->r != NULL)
+    {
+        depth1++;
+        if (ptr->l == NULL)
+            ptr = ptr->r;
+        else
+            ptr = ptr->l;
+    }
+    ptr = root;    
+    while (ptr->l != NULL || ptr->r != NULL)
+    {
+        depth2++;
+        if (ptr->r == NULL)
+            ptr = ptr->l;
+        else
+            ptr = ptr->r;
+    }
+/*
+ *DEPTH IS CONSIDERED FROM LEVEL-0 ALSO HEIGHT IS CONSIDERED AS NUMBER OF EDGES
+ */
+    if (depth1 > depth2)
+        printf("height of the tree is %d\ndepth of the tree is %d",depth1,depth1);
+    else    
+        printf("height of the tree is %d\ndepth of the tree is %d",depth2,depth2);
+}
+
+-------------------------------------------------------------------
+
+
+C Program to Find Maximum Distance Between Two Nodes in a Binary Tree
+-------------================================-------------------
+
+/* 
+ * C Program to Find Nodes which are at Maximum Distance in Binary Tree
+ */
+#include <stdio.h>
+#include <stdlib.h>
+ 
+struct btnode
+{
+    int value;
+    struct btnode *r,*l;
+} *root = NULL, *temp = NULL;
+ 
+void create();
+void insert();
+void add(struct btnode *t);
+void maxdistance(struct btnode *t);
+ 
+int count = 0, max = 0, v[100] = {0}, z = 0, max2, max1[100] = {0};
+ 
+void main()
+{
+    int ch, i;
+ 
+    printf("Program to find nodes at maximum distance");
+    printf("\n  OPERATIONS ----"); 
+    printf("\n1] Insert ");
+    printf("\n2] Display nodes ");
+    printf("\n3] Exit ");    
+    while (1)
+    {                        
+        printf("\nEnter your choice : ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:    
+            insert();
+            break;
+        case 2:    
+            max = 0;
+            count = 0;
+            maxdistance(root);
+        for (i = 1; i < z; i++)
+        {
+            max2 = max1[0];
+            if (max2 < max1[i])
+                max2 = max1[i];
+        }
+        printf("Maximum distance nodes \nNodes\t Distance "); 
+        for (i = 0; i < z; i++)
+        {
+            if (max2 == max1[i])
+                printf("\n %d\t  %d ",v[i],max2);        
+        }
+        break;
+        case 3: 
+            exit(0);
+        default :     
+            printf("Wrong choice, Please enter correct choice  ");
+            break;    
+        }
+    }
+}
+ 
+/* To create a new node with the data from the user */
+void create()
+{
+    int data;
+ 
+    printf("Enter the data of node : ");
+    scanf("%d", &data);
+    temp = (struct btnode* ) malloc(1*(sizeof(struct btnode)));
+    temp->value = data;
+    temp->l = temp->r = NULL;
+}
+ 
+/* To check for root node and then create it */
+void insert()
+{
+    create();
+ 
+    if (root == NULL)
+        root = temp;
+    else
+        add(root);
+}
+ 
+/* Search for the appropriate position to insert the new node */
+void add(struct btnode *t)
+{
+    if ((temp->value > t->value) && (t->r!=NULL))    /* value more than root node value insert at right */
+        add(t->r);
+    else if ((temp->value > t->value) && (t->r==NULL))
+        t->r = temp;
+    else if ((temp->value < t->value) && (t->l!=NULL))   /* value less than root node value insert at left */
+        add(t->l);
+    else if ((temp->value < t->value) && (t->l==NULL))
+        t->l = temp;
+}
+ 
+/* Function to find the max distance nodes */
+void maxdistance(struct btnode *t)
+{
+    if (t->l!=NULL)
+    {
+        count++;            /* to count the number of nodes in between root and leaf */
+        maxdistance(t->l);
+    }
+    if (max < count)
+        max = count;
+    if (max == count)
+    {
+        max1[z] = max;
+        v[z] = t->value;
+        z++;
+    }
+    if (t->r != NULL)
+    {
+        count++;        
+        maxdistance(t->r);
+    }
+    count--;
+}
+
+-----------------------------------------------------------------
+
+
