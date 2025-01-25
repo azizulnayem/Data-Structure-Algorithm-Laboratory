@@ -1,0 +1,118 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+
+void PrintList(struct node *head)
+{
+    struct node *ptr = head;
+
+    while(ptr != NULL)
+    {
+        cout<<ptr->data<<" ";
+        ptr = ptr->next;
+    }
+    cout<<endl;
+}
+
+struct node * InsertNodeAtEnd(struct node *head, int value)
+{
+    if(head == NULL) ///LIST IS EMPTY
+    {
+        struct node *newPtr = (struct node*)malloc(sizeof(struct node));
+        newPtr->data = value;
+        newPtr->prev = NULL;
+        newPtr->next = NULL;
+        return newPtr;
+    }
+
+    ///LIST IS NOT EMPTY
+    struct node *ptr = head;
+
+    while(ptr->next != NULL)
+    {
+        ptr = ptr->next;
+    }
+
+    struct node *newPtr = (struct node*)malloc(sizeof(struct node));
+    ptr->next = newPtr;
+    newPtr->data = value;
+    newPtr->prev = ptr;
+    newPtr->next = NULL;
+    return head;
+}
+
+struct node * DeleteNode(struct node *head, int value)
+{
+    struct node * ptr = head;
+
+    while(ptr != NULL)
+    {
+        if(ptr->data == value) ///VALUE MATCHED SO DELETE
+        {
+            if(ptr->prev == NULL) ///FIRST ELEMENT TO BE DELETED
+            {
+                head = head->next;
+                head->prev = NULL;
+                free(ptr);
+                ptr = NULL;
+                cout<<value<<" deleted successfully"<<endl;
+                return head;
+            }
+
+            if(ptr->next == NULL) ///LAST ELEMENT TO BE DELETED
+            {
+                (ptr->prev)->next = NULL;
+                free(ptr);
+                ptr = NULL;
+                cout<<value<<" deleted successfully"<<endl;
+                return head;
+
+            }
+
+            ///SOME MIDDLE ELEMENT TO BE DELETED
+
+            (ptr->prev)->next = ptr->next;
+            (ptr->next)->prev = ptr->prev;
+            ptr->prev = NULL;
+            ptr->next = NULL;
+            free(ptr);
+            ptr = NULL;
+            cout<<value<<" deleted successfully"<<endl;
+            return head;
+
+        }
+
+        ptr = ptr->next;
+    }
+
+    cout<<value<<" not found"<<endl;
+    return head;
+
+}
+
+
+int main()
+{
+    struct node * head = NULL;
+    head = InsertNodeAtEnd(head,10);
+    PrintList(head);
+    head = InsertNodeAtEnd(head,5);
+    PrintList(head);
+    head = InsertNodeAtEnd(head,16);
+    PrintList(head);
+    head = InsertNodeAtEnd(head,20);
+    PrintList(head);
+    head = DeleteNode(head,10);
+    PrintList(head);
+    head = DeleteNode(head,16);
+    PrintList(head);
+    head = DeleteNode(head,20);
+    PrintList(head);
+
+}

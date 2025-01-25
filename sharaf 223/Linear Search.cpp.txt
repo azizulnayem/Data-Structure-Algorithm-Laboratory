@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int LinearSearch(int *array, int n, int element)
+{
+    int index = -1;
+    for(int i=0; i<n; i++)
+    {
+        if(array[i] == element)
+        {
+            index = i;
+            return index;
+        }
+    }
+
+    return index;
+}
+
+int main()
+{
+    int array[7] = {10,9,8,12,15,18,20};
+    int element = 18;
+
+    int index = LinearSearch(array,7,element);
+
+    if(index == -1)
+    {
+        cout<<"Element not Found"<<endl;
+    }
+    else
+    {
+        cout<<"Element found at index "<<index<<endl;
+    }
+}

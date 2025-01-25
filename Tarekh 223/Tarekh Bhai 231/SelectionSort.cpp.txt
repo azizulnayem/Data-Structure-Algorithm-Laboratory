@@ -1,0 +1,47 @@
+#include<stdio.h>
+
+void printArray(int arr[], int n)
+{
+    for(int i=0; i<n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+void SelectionSort(int arr[], int n)
+{
+    for(int indicator=0; indicator<n-1; indicator++)
+    {
+        int minimum = arr[indicator];
+        int minIndex = indicator;
+        for(int j=indicator+1; j<n; j++)
+        {
+            if(arr[j]<minimum)
+            {
+                minimum = arr[j];
+                minIndex = j;
+            }
+        }
+
+        int temp = arr[indicator];
+        arr[indicator] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+}
+
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    int arr[n];
+    for(int i=0; i<n; i++) scanf("%d", &arr[i]);
+    printf("Before Applying Selection Sort...... ");
+    printArray(arr, n);
+
+    SelectionSort(arr, n);
+
+    printf("After Applying Selection Sort...... ");
+    printArray(arr, n);
+
+    return 0;
+}

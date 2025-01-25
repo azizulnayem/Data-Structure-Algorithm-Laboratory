@@ -1,0 +1,103 @@
+#include<iostream>
+#include<random>
+// #include<time.h>
+using namespace std;
+
+struct ListNode
+{
+    int value;
+    ListNode* next;
+};
+
+
+ListNode* head = NULL;
+ListNode* tail = NULL;
+
+ListNode* createListNode(int data)
+{
+    ListNode* test = new ListNode();
+    test->value = data;
+    test->next = NULL;
+    return test;
+}
+
+
+ListNode* Search(int data)
+{
+    for(ListNode* i = head; i!=NULL; i=i->next)
+    {
+        if(i->value==data)
+            return i;
+    }
+    return NULL;
+}
+
+void InsertLast(int value)
+{
+    if(head==NULL)
+    {
+        head = createListNode(value);
+        tail = head;
+    }
+    else
+    {
+        ListNode* temp = createListNode(value);
+        tail->next = temp;
+        tail = temp;
+        temp = NULL;
+    }
+}
+
+
+void InsertFirst(int data)
+{
+    ListNode* temp = createListNode(data);
+    temp->next = head;
+    head = temp;
+}
+
+
+void InsertMiddle(int data, int insertAfer)
+{
+    ListNode* location = Search(insertAfer);
+    ListNode* temp = createListNode(data);
+
+    temp->next = location->next;
+    location->next = temp;
+}
+
+void printList()
+{
+    for(ListNode* i=head; i!=NULL; i=i->next)
+    {
+        cout << i->value << " ";
+    }
+    cout << endl;
+}
+
+
+int main()
+{
+
+    // srand(time(NULL));
+
+    for(int i=1; i<=5; i++)
+    {
+        InsertLast(rand()%50);
+    }
+    printList();
+
+
+    printf("After insert first---> \n");
+
+    InsertFirst(1000);
+    printList();
+
+    printf("After insert middle ---> \n");
+    InsertMiddle(64, 34);
+    printList();
+
+
+    return 0;
+}
+

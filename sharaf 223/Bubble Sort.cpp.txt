@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void PrintArray(int *array, int n)
+{
+    for(int i=0; i<n; i++)
+        cout<< array[i] <<" ";
+
+    cout<<endl;
+}
+
+void BubbleSort(int *array, int n)
+{
+    bool swapped = true;
+    int j = 0;
+    int temp;
+    int pass = 1;
+
+    while (swapped)
+    {
+        swapped = false;
+        j++;
+        for (int i = 0; i < n - j; i++)
+        {
+            if (array[i] > array[i + 1])
+            {
+                temp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
+                swapped = true;
+            }
+        }
+        cout<<"Pass "<<pass<<":";
+        PrintArray(array,n);
+        pass++;
+    }
+}
+
+int main()
+{
+    int array[] = {2,4,1,7,5,3};
+    int n = sizeof(array)/sizeof(array[0]);
+
+    cout << "Before Bubble Sort :" << endl;
+    PrintArray(array, n);
+
+    BubbleSort(array, n);
+
+    cout << "After Bubble Sort :" <<endl;
+    PrintArray(array, n);
+
+}

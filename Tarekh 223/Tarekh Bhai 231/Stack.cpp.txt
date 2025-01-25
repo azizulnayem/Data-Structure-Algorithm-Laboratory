@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+#include<stack>
+using namespace std;
+int main()
+{
+    /// 1. push 2. pop 3. top 4. empty 5. size
+    stack < int > Stack;
+    for(int i=1; i<=10; i++)
+        Stack.push(i);
+
+    while(Stack.empty()==false)
+    {
+        cout << Stack.top() << " ";
+        Stack.pop();
+    }
+    cout << endl;
+}

@@ -1,0 +1,29 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+int main()
+{
+    queue< int > Queue;
+
+    Queue.push(9);
+    Queue.push(17);
+    Queue.push(20);
+    Queue.push(30);
+    Queue.push(14);
+    Queue.push(19);
+    Queue.push(26);
+
+    while(Queue.size()!=0)
+    {
+        cout << Queue.front() << " ";
+        Queue.pop();
+    }
+
+    cout << endl;
+    cout << "Size of the queue: " << Queue.size() << endl;
+
+    /**cout << __TIME__ << endl;
+    cout << __DATE__ << endl;**/
+
+    return 0;
+}

@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int BinarySearch(int * array, int element, int left, int right)
+{
+    if(left>right)
+    {
+        return -1;
+    }
+
+    int mid = (left+right)/2;
+
+    if(array[mid] == element)
+    {
+        return mid;
+    }
+    else if(element < array[mid])
+    {
+        BinarySearch(array,element,left,mid-1);
+    }
+    else if(element > array[mid])
+    {
+        BinarySearch(array,element,mid+1,right);
+    }
+}
+
+int main()
+{
+    int length = 7;
+    int array[length] = {8,9,10,12,15,18,20};
+    int element = 11;
+
+    int index = BinarySearch(array,element,0,length-1);
+
+    if(index == -1)
+    {
+        cout<<"Element not found"<<endl;
+    }
+    else
+    {
+        cout<<"Element at index "<<index<<endl;
+    }
+}

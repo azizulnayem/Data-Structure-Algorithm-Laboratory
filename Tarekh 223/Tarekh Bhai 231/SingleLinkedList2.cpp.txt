@@ -1,0 +1,166 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct ListNode
+{
+    int value;
+    struct ListNode *next;
+};
+
+typedef struct ListNode ListNode;
+
+ListNode *head = NULL;
+ListNode *tail = NULL;
+
+
+ListNode *linearSearch(int key);
+
+ListNode *createListNode(int data)
+{
+    ListNode *temp = (ListNode *)malloc(sizeof(ListNode));
+    temp->value = data;
+    temp->next = NULL;
+    return temp;
+}
+
+void insertFirst(int data)
+{
+    if(head==NULL)
+    {
+        head = createListNode(data);
+        tail = head;
+    }
+    else
+    {
+        ListNode* temp = createListNode(data);
+        temp->next = head;
+        head = temp;
+        temp = NULL;
+    }
+}
+
+void insertMiddle(int insertAfter, int data)
+{
+    ListNode* loc = linearSearch(insertAfter);
+
+    if(loc==NULL) return;
+
+    ListNode* temp = createListNode(data);
+    temp->next = loc->next;
+    loc->next = temp;
+}
+
+
+void insertLast(int data)
+{
+    if(head==NULL)
+    {
+        head = createListNode(data);
+        tail = head;
+    }
+    else
+    {
+        ListNode* temp = createListNode(data);
+        tail->next = temp;
+        tail = tail->next;
+        temp = NULL;
+    }
+}
+
+void printList()
+{
+    printf("List: ");
+    for(ListNode* i=head; i!=NULL; i=i->next)
+    {
+        printf("%d ", i->value);
+    }
+    printf("\n");
+    return;
+}
+
+ListNode *linearSearch(int key)
+{
+    for(ListNode* i=head; i!=NULL; i=i->next)
+    {
+        if(i->value==key)
+            return i;
+    }
+    return NULL;
+}
+
+void deleteFirst()
+{
+    if(head==NULL) return;
+
+    ListNode* temp = head;
+    head = head->next;
+    temp->next = NULL;
+    free(temp);
+
+    if(head==NULL) tail = NULL;
+}
+
+ListNode* prevLoc(int data)
+{
+    ListNode* frontLeg = head;
+    ListNode* backLeg = NULL;
+    while(frontLeg!=NULL)
+    {
+        if(frontLeg->value==data)
+            return backLeg;
+        backLeg = frontLeg;
+        frontLeg = frontLeg->next;
+    }
+    return NULL;
+}
+
+void deleteMiddle(int data)
+{
+    ListNode* pLoc = prevLoc(data);
+    if(pLoc==NULL) return;
+    ListNode* temp = pLoc->next;
+    pLoc->next = temp->next;
+    temp->next = NULL;
+    free(temp);
+}
+
+
+void deleteLast()
+{
+    if(tail==NULL) return;
+
+    ListNode* pLoc = prevLoc(tail->value);
+    if(pLoc==NULL)
+    {
+        free(tail);
+        head = tail = NULL;
+    }
+    else
+    {
+        pLoc->next = NULL;
+        free(tail);
+        tail = pLoc;
+        pLoc = NULL;
+    }
+}
+
+int main()
+{
+    for(int i=10; i<=100; i+=10)
+        insertFirst(i);
+
+    printList();
+
+    deleteFirst();
+    printList();
+
+    deleteLast();
+    printList();
+
+    deleteMiddle(50);
+    printList();
+
+    deleteMiddle(55);
+    printList();
+    return 0;
+}

@@ -1,0 +1,26 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+int main()
+{
+    stack< int > Stack;
+
+    Stack.push(5);
+    Stack.push(7);
+    Stack.push(17);
+    Stack.push(72);
+    Stack.push(79);
+
+    cout << Stack.top() << endl;
+    Stack.pop();
+
+    cout << Stack.top() << endl;
+
+
+    /**
+    1. Postfix Evaluation
+    2. Balanced Bracket
+    **/
+
+    return 0;
+}

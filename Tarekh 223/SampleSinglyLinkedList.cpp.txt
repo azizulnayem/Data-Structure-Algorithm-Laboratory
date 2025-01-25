@@ -1,0 +1,40 @@
+#include<iostream>
+using namespace std;
+
+struct ListNode
+{
+    int value;
+    ListNode* next;
+};
+
+ListNode* createListNode(int data)
+{
+    ListNode* test = new ListNode();
+    test->value = data;
+    test->next = NULL;
+    return test;
+}
+
+int main()
+{
+
+    /// creating blocks
+    ListNode* theFirstBlock = createListNode(5);
+    ListNode* theSecondBlock = createListNode(2);
+    ListNode* theThirdBlock = createListNode(7);
+
+    /// linking elements
+    theFirstBlock->next = theSecondBlock;
+    theSecondBlock->next = theThirdBlock;
+
+    cout << theFirstBlock->value << endl;
+    cout << theFirstBlock->next->value << endl;
+    cout << theFirstBlock->next->next->value << endl;
+
+    /// checking the null value to face runtime error
+    cout << theFirstBlock->next->next->next->value << endl;
+
+    return 0;
+}
+
+

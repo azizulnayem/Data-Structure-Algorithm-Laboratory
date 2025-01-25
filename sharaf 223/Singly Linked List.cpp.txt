@@ -1,0 +1,124 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *link;
+};
+
+void PrintList(struct node *head)
+{
+    struct node *ptr = head;
+
+    while(ptr != NULL)
+    {
+        cout<<ptr->data<<" ";
+        ptr = ptr->link;
+    }
+    cout<<endl;
+}
+
+void InsertNodeAtEnd(struct node *head, int value)
+{
+    struct node *ptr = head;
+
+    while(ptr->link != NULL)
+    {
+        ptr = ptr->link;
+    }
+
+    struct node *newPtr = (struct node*)malloc(sizeof(struct node));
+    ptr->link = newPtr;
+    newPtr->data = value;
+    newPtr->link = NULL;
+}
+
+void InsertNodeAtStart(struct node *head, int value)
+{
+
+}
+
+bool SearchNode(struct node *head, int value)
+{
+    struct node *ptr = head;
+
+    while(ptr != NULL)
+    {
+        if(ptr->data == value)
+        {
+            cout<<"Element Found"<<endl;
+            return true;
+        }
+        ptr = ptr->link;
+    }
+
+    cout<<"Element Not Found"<<endl;
+    return false;
+}
+
+struct node * DeleteNode(struct node *head, int value)
+{
+    struct node *ptr = NULL;
+    struct node *ptr2 = head;
+
+    while(ptr2 != NULL)
+    {
+        if(ptr2->data == value)
+        {
+            if(ptr == NULL)
+            {
+                ///DELETING FIRST ELEMENT
+                head = ptr2->link;
+                ptr2->link = NULL;
+                free(ptr2);
+                ptr2 = NULL;
+                cout<<value<<" Deleted Successfully"<<endl;
+                return head;
+
+            }
+
+            if(ptr != NULL){
+            ///DELETING ANY ELEMENT INSIDE
+            ptr->link = ptr2->link;
+            ptr2->link = NULL;
+            free(ptr2);
+            ptr2 = NULL;
+            cout<<value<<" Deleted Successfully"<<endl;
+            return head;
+            }
+        }
+
+        ptr = ptr2;
+        ptr2 = ptr2->link;
+    }
+
+    cout<<"Element not found, cannot be deleted"<<endl;
+}
+
+int main()
+{
+    struct node *head = NULL;
+    head = (struct node*)malloc(sizeof(struct node));
+
+    head->data = 45;
+    head->link = NULL;
+
+    InsertNodeAtEnd(head,55);
+    InsertNodeAtEnd(head,65);
+    InsertNodeAtEnd(head,75);
+
+    PrintList(head);
+    SearchNode(head,35);
+
+    head = DeleteNode(head,65);
+    PrintList(head);
+
+    head = DeleteNode(head,45);
+    PrintList(head);
+
+    head = DeleteNode(head,75);
+    PrintList(head);
+
+
+}

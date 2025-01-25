@@ -1,0 +1,132 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct ListNode
+{
+    int value;
+    struct ListNode* next;
+    struct ListNode* prev;
+};
+
+typedef struct ListNode ListNode;
+
+ListNode* head = NULL;
+ListNode* tail = NULL;
+
+ListNode* createListNode(int data)
+{
+    ListNode* temp = (ListNode *)malloc(sizeof(ListNode));
+    temp->value = data;
+    temp->next = temp->prev = NULL;
+    return temp;
+}
+
+void insertLast(int data)
+{
+    if(head==NULL)
+    {
+        head = createListNode(data);
+        tail = head;
+    }
+    else
+    {
+        ListNode* temp = createListNode(data);
+        tail->next = temp;
+        temp->prev = tail;
+        tail = tail->next;
+        temp = NULL;
+    }
+}
+
+void printList()
+{
+    for(ListNode* i=head;i!=NULL;i=i->next)
+        printf("%d ", i->value);
+    printf("\n");
+}
+
+int generateRandomNumber(int lower, int upper)
+{
+    return (rand() % (upper - lower + 1)) + lower;
+}
+
+int main()
+{
+    /// inserting 10 elements in the array
+    for(int i=1;i<=10;i++)
+        insertLast(generateRandomNumber(5, 10));
+    insertLast(25);
+    insertLast(15);
+    insertLast(6);
+    insertLast(9);
+    insertLast(15);
+
+    printList();
+
+    /**
+        You are given two questions, and 5 marks are allocated for each.
+        Total time: 30 minutes
+        You are not allowed to remove any lines from this code.
+        Student Name:
+        Student ID:
+    **/
+
+    /// Question 1: remove the numbers from the Linked List those are divisible by 5
+    /** Write your code here for Question 1, You can add functions if necessary **/
+
+
+    while(head!=NULL && head->value%5==0)
+    {
+        ListNode* temp = head;
+        head = head->next;
+        head->prev = NULL;
+        temp->next = NULL;
+    }
+
+    for(ListNode* temp = head; temp!=NULL; temp=temp->next)
+    {
+        if(temp->value%5==0)
+        {
+            ListNode* anotherTemp = temp->prev;
+
+            temp->prev->next = temp->next;
+            if(temp->next!=NULL)
+                temp->next->prev = temp->prev;
+            else
+                tail = temp->prev;
+
+            temp->next = temp->prev = NULL;
+            free(temp);
+
+            temp = anotherTemp;
+        }
+    }
+
+    printList();
+
+    /// Question 2: remove the duplicate elements from the Linked List
+    /** Write your code here for Question 2, You can add functions if necessary **/
+
+    for(ListNode* temp = head; temp!=NULL; temp=temp->next)
+    {
+        for(ListNode* anotherTemp = temp->next; anotherTemp!=NULL; anotherTemp=anotherTemp->next)
+        {
+            if(temp->value == anotherTemp->value)
+            {
+                ListNode* prevTemp = anotherTemp->prev;
+
+                anotherTemp->prev->next = anotherTemp->next;
+                if(anotherTemp->next!=NULL) anotherTemp->next->prev = anotherTemp->prev;
+                else tail = anotherTemp->prev;
+
+                anotherTemp->next = anotherTemp->prev = NULL;
+                free(anotherTemp);
+                anotherTemp = prevTemp;
+            }
+        }
+    }
+
+    printList();
+
+
+    return 0;
+}

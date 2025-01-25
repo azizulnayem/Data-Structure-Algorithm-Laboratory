@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool BFS(vector< int > Graph[], int V, int start)
+{
+    queue< int > Queue;
+    int visited[V] = {0};
+    int visiting;
+    vector< int > visitedSequence;
+
+    Queue.push(start);
+    while(Queue.empty() == false)
+    {
+        visiting = Queue.front();
+        Queue.pop();
+
+        if(visited[visiting]==1) continue;
+
+        for(int i=0; i<Graph[visiting].size(); i++)
+        {
+            int neighbour = Graph[visiting][i];
+            if(visited[neighbour]==0)
+                Queue.push(neighbour);
+        }
+
+        visitedSequence.push_back(visiting);
+        visited[visiting] = 1;
+    }
+
+    for(int i=0; i<V; i++)
+    {
+        if(visited[i]==0) return false;
+    }
+    return true;
+}
+int main()
+{
+    freopen("input.txt", "r", stdin);
+    int V, E; cin >> V >> E;
+    vector< int > Graph[V];
+    for(int i=1;i<=E; i++)
+    {
+        int from, to; cin >> from >> to;
+        Graph[from].push_back(to);
+    }
+
+    for(int i=0; i<V; i++)
+    {
+        cout << i << " --> ";
+        for(int j=0; j<Graph[i].size(); j++)
+            cout << Graph[i][j] << " ";
+        cout << endl;
+    }
+
+    bool exist = false;
+    cout << "Visit possible from: ";
+    for(int i=0; i<V; i++)
+    {
+        if(BFS(Graph, V, i) == true)
+        {
+            exist = true;
+            cout << i << " ";
+        }
+    }
+
+    cout << endl;
+    if(exist==true)
+        cout << "Exist\n";
+    else
+        cout << "Not Exist\n";
+
+
+
+    return 0;
+}
